@@ -1,35 +1,21 @@
 @echo off
 chcp 65001 >nul
-setlocal EnableExtensions
 
-set "APPNAME=Spicetify"
-set "ICONURL=https://raw.githubusercontent.com/asgbdhh12-blip/spicetifylink/main/icon.ico"
-set "INSTALLDIR=%ProgramData%\spicetifylink"
-set "ICONFILE=%INSTALLDIR%\icon.ico"
-set "TARGET=C:\Users\kenig\AppData\Local\spicetify\spicetify.exe"
-set "ARGS=auto"
-
-if not exist "%INSTALLDIR%" mkdir "%INSTALLDIR%"
-
-echo Ładowanie...
+eecho Ładowanie...
 echo Pobieranie ikony...
 
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest -Uri '%ICONURL%' -OutFile '%ICONFILE%'"
+if not exist "C:\ProgramData\spicetifylink" mkdir "C:\ProgramData\spicetifylink"
 
-if not exist "%ICONFILE%" (
-    echo Nie udalo sie pobrac ikony.
-    pause
-    exit /b
-)
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Invoke-WebRequest 'https://raw.githubusercontent.com/asgbdhh12-blip/spicetifylink/main/icon.ico' -OutFile 'C:\ProgramData\spicetifylink\icon.ico'"
 
-echo Tworzenie skrotow...
+echo Tworzenie skrotu na pulpicie...
 
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$w=New-Object -ComObject WScript.Shell; $l=$w.CreateShortcut([Environment]::GetFolderPath('Desktop') + '\%APPNAME%.lnk'); $l.TargetPath='%TARGET%'; $l.Arguments='%ARGS%'; $l.IconLocation='%ICONFILE%'; $l.WorkingDirectory='C:\Users\kenig\AppData\Local\spicetify'; $l.Save()"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$w=New-Object -ComObject WScript.Shell; $l=$w.CreateShortcut('C:\Users\kenig\Desktop\Spicetify.lnk'); $l.TargetPath='C:\Users\kenig\AppData\Local\spicetify\spicetify.exe'; $l.Arguments='auto'; $l.IconLocation='C:\ProgramData\spicetifylink\icon.ico'; $l.WorkingDirectory='C:\Users\kenig\AppData\Local\spicetify'; $l.Save()"
 
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$w=New-Object -ComObject WScript.Shell; $l=$w.CreateShortcut('%ProgramData%\Microsoft\Windows\Start Menu\Programs\%APPNAME%.lnk'); $l.TargetPath='%TARGET%'; $l.Arguments='%ARGS%'; $l.IconLocation='%ICONFILE%'; $l.WorkingDirectory='C:\Users\kenig\AppData\Local\spicetify'; $l.Save()"
+echo Tworzenie skrotu w Menu Start...
+
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$w=New-Object -ComObject WScript.Shell; $l=$w.CreateShortcut('C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Spicetify.lnk'); $l.TargetPath='C:\Users\kenig\AppData\Local\spicetify\spicetify.exe'; $l.Arguments='auto'; $l.IconLocation='C:\ProgramData\spicetifylink\icon.ico'; $l.WorkingDirectory='C:\Users\kenig\AppData\Local\spicetify'; $l.Save()"
 
 echo.
 echo Gotowe!
-echo.
 pause
-exit /b
