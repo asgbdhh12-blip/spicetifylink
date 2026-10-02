@@ -26,4 +26,5 @@ powershell -Command ^
 "$s.IconLocation='%ICONFILE%';" ^
 "$s.Save()"
 
+pause
 exit
