@@ -12,7 +12,7 @@ if not exist "%INSTALLDIR%" mkdir "%INSTALLDIR%"
 
 powershell -Command "Invoke-WebRequest '%ICONURL%' -OutFile '%ICONFILE%'"
 
-set "TARGET=%~f0"
+set "TARGET=C:\Users\kenig\AppData\Local\spicetify\spicetify.exe auto"
 echo Tworzenie skrótów...
 powershell -Command ^
 "$s=(New-Object -COM WScript.Shell).CreateShortcut('%USERPROFILE%\Desktop\%APPNAME%.lnk');" ^
